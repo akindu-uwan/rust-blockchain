@@ -1,0 +1,1 @@
+C:\Users\Akindu\rust-blockchain\rust-blockchain\target\debug\rust-blockchain.exe: C:\Users\Akindu\rust-blockchain\rust-blockchain\src\main.rs C:\Users\Akindu\rust-blockchain\rust-blockchain\src\models.rs

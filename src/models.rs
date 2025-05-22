@@ -6,7 +6,7 @@ pub struct TxOut {
 
 #[derive(Debug, Clone)]
 pub struct TxIn {
-    pub pre_tx: String, //txid of the previous hash
+    pub prev_tx: String, //txid of the previous hash
     pub index: usize, //index of the output
     pub signature: String, //digital signature
 }

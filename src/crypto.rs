@@ -1,4 +1,5 @@
 use sha2::{Sha256, Digest};
+use ripemd::{Ripemd160, Digest as RipemdDigest};
 
 // SHA256(SHA256)
 pub fn sha256d(data: &[u8]) -> [u8; 32] {
@@ -42,4 +43,10 @@ pub fn compute_merkle_root(mut txids: Vec<String>) -> String {
     }
 
     txids[0].clone()
+}
+
+pub fn ripemd160_sha256(data: &str) -> String {
+    let sha = Sha256::digest(data.as_bytes());
+    let ripemd = Ripemd160::digest(&sha);
+    hex::encode(ripemd)
 }

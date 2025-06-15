@@ -2,12 +2,14 @@ mod models;
 mod utxo;
 mod script;
 mod crypto;
+mod difficulty;
 
 //use crate::models::*;
 //use crate::utxo::*;
 use crate::script::ScriptItem::{Op, Data};
 use crate::script::execute_script;
 use crate::crypto::*;
+use crate::difficulty::validate_pow;
 
 fn main() {
 
@@ -72,7 +74,7 @@ fn main() {
     println!("💰 Alice balance: {}", utxo.get_balance("alice")); // should be 0
     println!("💰 Bob balance:   {}", utxo.get_balance("bob"));   // should be 30000
     */
-
+    /* 
     let pubkey = "my-public-key";
     let sig = "signed-by-me";
     let pubkey_hash = ripemd160_sha256(pubkey);
@@ -94,5 +96,16 @@ fn main() {
 
     let valid = execute_script(&script_sig, &script_pubkey);
     println!("✅ Script result: {}", valid);  // should be true
+    */
+
+    //simulate mining with dummy data
+    let header = b"fake block header";
+    let bits = 0x1d00ffff;
+
+    let is_valid = validate_pow(header, bits);
+    println!("Block valid under pow? {}", is_valid);
+
+
+
 
 }

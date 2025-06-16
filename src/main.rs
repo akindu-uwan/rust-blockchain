@@ -4,13 +4,16 @@ mod script;
 mod crypto;
 mod difficulty;
 mod block;
+mod mining;
 
 //use crate::models::*;
 //use crate::utxo::*;
-use crate::script::ScriptItem::{Op, Data};
-use crate::script::execute_script;
-use crate::crypto::*;
-use crate::difficulty::validate_pow;
+//use crate::script::ScriptItem::{Op, Data};
+//use crate::script::execute_script;
+//use crate::crypto::*;
+//use crate::difficulty::validate_pow;
+use mining::mine_block;
+use difficulty::bits_to_target;
 
 fn main() {
 
@@ -99,12 +102,23 @@ fn main() {
     println!("✅ Script result: {}", valid);  // should be true
     */
 
+    /* 
+    //1.5 Test
     //simulate mining with dummy data
     let header = b"fake block header";
     let bits = 0x1d00ffff;
 
     let is_valid = validate_pow(header, bits);
     println!("Block valid under pow? {}", is_valid);
+    */
+
+    //2.1 Test
+    let prev_hash = "0000000000000000".to_string();
+    let merkle_root = "4e3f5...".to_string();
+    let bits = 0x1f00ffff;
+
+    let mined_header = mine_block(prev_hash, merkle_root, bits);
+    println!("{:#?}", mined_header);
 
 
 

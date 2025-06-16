@@ -3,6 +3,7 @@ mod utxo;
 mod script;
 mod crypto;
 mod difficulty;
+mod block;
 
 //use crate::models::*;
 //use crate::utxo::*;

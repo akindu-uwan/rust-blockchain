@@ -172,6 +172,7 @@ fn main() {
     bc.validate_chain();
     */
 
+    /* 
     //2.4 Test
     let mut bc = Blockchain::new();
 
@@ -191,7 +192,26 @@ fn main() {
 
     let loaded_bc = Blockchain::load_from_file("chain.json");
     loaded_bc.validate_chain();
+    */
 
+    //2.5 Test
+    let mut bc = Blockchain::new();
 
+    bc.add_block(vec![Transaction{
+        txid: "tx1".into(),
+        inputs: vec![],
+        outputs: vec![],
+    }]);
+
+    bc.add_block(vec![Transaction {
+        txid: "tx2".into(),
+        inputs: vec![],
+        outputs: vec![],
+    }]);
+
+    bc.save_binary("chain.blk");
+
+    let reloaded = Blockchain::load_binary("chain.blk");
+    reloaded.validate_chain();
 
 }

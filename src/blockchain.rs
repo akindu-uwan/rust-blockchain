@@ -84,6 +84,8 @@ impl Blockchain {
         true
     }
 
+    /* 
+    //JSON style file save and load system
     pub fn save_to_file(&self, filename: &str) {
         let json = serde_json::to_string(&self.chain).unwrap();
         let mut file = File::create(filename).unwrap();
@@ -101,6 +103,30 @@ impl Blockchain {
             bits: 0x1f00ffff
         }
     }
+    */
 
+    //binary format(.blk-style) file save and load system
+    pub fn save_binary(&self, filename: &str) {
+        use std::fs::File;
+        use std::io::Write;
+        let encoded = bincode::serialize(&self.chain).unwrap();
+        let mut file = File::create(filename).unwrap();
+        file.write_all(&encoded).unwrap();
+        println!("💾 Binary blockchain saved to {}", filename);
+    }
+
+    pub fn load_binary(filename: &str) -> Self {
+        use std::fs::File;
+        use std::io::Read;
+        let mut file = File::open(filename).expect("❌ File not found");
+        let mut buffer = Vec::new();
+        file.read_to_end(&mut buffer).unwrap();
+
+        let chain: Vec<Block> = bincode::deserialize(&buffer).unwrap();
+        Blockchain {
+            chain,
+            bits: 0x1f00ffff,
+        }
+    }
     
 }

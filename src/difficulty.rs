@@ -1,3 +1,5 @@
+use serde::{Serialize, Deserialize};
+
 // Convert Bitcoin bits to full target as 256-bit number
 pub fn bits_to_target(bits: u32) -> num_bigint::BigUint {
     use num_bigint::BigUint;

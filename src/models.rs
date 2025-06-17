@@ -1,24 +1,26 @@
-#[derive(Debug, Clone)]
+use serde::{Serialize, Deserialize};
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TxOut {
     pub value: u64, //amount in satoshi
     pub pubkey_hash: String, //recipient public key hash
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TxIn {
     pub prev_tx: String, //txid of the previous hash
     pub index: usize, //index of the output
     pub signature: String, //digital signature
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Transaction {
     pub txid: String, //transaction ID
     pub inputs: Vec<TxIn>,
     pub outputs: Vec<TxOut>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BlockHeader {
     pub version: u32,
     pub prev_block_hash: String,

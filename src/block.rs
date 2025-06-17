@@ -1,7 +1,7 @@
 use serde::{Serialize, Deserialize};
 use crate::models::Transaction;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BlockHeader {
     pub version: u32,
     pub prev_block_hash: String,
@@ -15,7 +15,7 @@ pub fn serialize_header(header: &BlockHeader) -> Vec<u8> {
     bincode::serialize(header).unwrap()
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Block {
     pub header: BlockHeader,
     pub transactions: Vec<Transaction>,

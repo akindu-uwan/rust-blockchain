@@ -1,9 +1,12 @@
 use num_bigint::BigUint;
-
+use serde::{Serialize, Deserialize};
 use crate::block::{Block, BlockHeader};
 use crate::models::Transaction;
 use crate::mining::mine_block;
+use std::fs::File;
+use std::io::{Write, BufReader};
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Blockchain {
     pub chain: Vec<Block>,
     pub bits: u32,
@@ -80,4 +83,24 @@ impl Blockchain {
         println!("Blockchain is valid.");
         true
     }
+
+    pub fn save_to_file(&self, filename: &str) {
+        let json = serde_json::to_string(&self.chain).unwrap();
+        let mut file = File::create(filename).unwrap();
+        file.write_all(json.as_bytes()).unwrap();
+        println!("Blockchain saved to {}", filename);
+    }
+
+    pub fn load_from_file(filename: &str) -> Self {
+        let file = File::open(filename).expect("could not open file");
+        let reader = BufReader::new(file);
+        let chain: Vec<Block> = serde_json::from_reader(reader).expect("could not parse JSON");
+
+        Blockchain { 
+            chain, 
+            bits: 0x1f00ffff
+        }
+    }
+
+    
 }

@@ -5,6 +5,7 @@ mod crypto;
 mod difficulty;
 mod block;
 mod mining;
+mod blockchain;
 
 //use crate::models::*;
 //use crate::utxo::*;
@@ -12,8 +13,10 @@ mod mining;
 //use crate::script::execute_script;
 //use crate::crypto::*;
 //use crate::difficulty::validate_pow;
-use mining::mine_block;
-use difficulty::bits_to_target;
+//use mining::mine_block;
+//use difficulty::bits_to_target;
+use blockchain::Blockchain;
+use models::Transaction;
 
 fn main() {
 
@@ -112,6 +115,7 @@ fn main() {
     println!("Block valid under pow? {}", is_valid);
     */
 
+    /* 
     //2.1 Test
     let prev_hash = "0000000000000000".to_string();
     let merkle_root = "4e3f5...".to_string();
@@ -119,8 +123,31 @@ fn main() {
 
     let mined_header = mine_block(prev_hash, merkle_root, bits);
     println!("{:#?}", mined_header);
+    */
 
+    //2.2 Test
+    let mut bc = Blockchain::new();
 
+    bc.add_block(vec![Transaction{
+        txid: "tx1".into(),
+        inputs: vec![],
+        outputs: vec![],
+    }]);
+
+    bc.add_block(vec![Transaction {
+        txid: "tx2".into(),
+        inputs: vec![],
+        outputs: vec![],
+    }]);
+
+    for (i, block) in bc.chain.iter().enumerate() {
+        println!("🧱 Block #{} → nonce={} ts={} txs={}",
+            i,
+            block.header.nonce,
+            block.header.timestamp,
+            block.transactions.len()
+        );
+    }
 
 
 }

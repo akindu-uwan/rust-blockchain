@@ -28,16 +28,16 @@ pub fn mine_block(prev_hash: String, merkle_root: String, bits: u32) -> BlockHea
         let hash_num = BigUint::from_bytes_be(&hash);
 
         if hash_num < target {
-            println!("Mined block with nonce {}: {}", nonce, hash_to_hex(&hash));
-            println!("{}", target);
-            println!("{}", hash_num);
+            //println!("Mined block with nonce {}: {}", nonce, hash_to_hex(&hash));
+            //println!("{}", target);
+            //println!("{}", hash_num);
             return header;
         }
 
         nonce += 1;
 
         if nonce % 100_000 == 0 {
-            println!("...mining... nonce: {}", nonce);
+            //println!("...mining... nonce: {}", nonce);
         }
     }
 }

@@ -125,6 +125,7 @@ fn main() {
     println!("{:#?}", mined_header);
     */
 
+    /* 
     //2.2 Test
     let mut bc = Blockchain::new();
 
@@ -148,6 +149,26 @@ fn main() {
             block.transactions.len()
         );
     }
+    */
+
+    //2.3 Test
+    let mut bc = Blockchain::new();
+
+    bc.add_block(vec![Transaction{
+        txid: "tx1".into(),
+        inputs: vec![],
+        outputs: vec![],
+    }]);
+
+    bc.add_block(vec![Transaction {
+        txid: "tx2".into(),
+        inputs: vec![],
+        outputs: vec![],
+    }]);
+
+    bc.chain[1].header.nonce = 12345;
+
+    bc.validate_chain();
 
 
 }

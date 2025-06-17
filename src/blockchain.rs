@@ -1,3 +1,5 @@
+use num_bigint::BigUint;
+
 use crate::block::{Block, BlockHeader};
 use crate::models::Transaction;
 use crate::mining::mine_block;
@@ -45,5 +47,37 @@ impl Blockchain {
         let raw = serialize_header(&last.header);
         let hash = sha256d(&raw);
         hash_to_hex(&hash)
+    }
+
+    pub fn is_valid_block(&self, block: &Block, prev_block: &Block) -> bool {
+        use crate::block::serialize_header;
+        use crate::crypto::{sha256d, hash_to_hex};
+        use crate::difficulty::bits_to_target;
+
+        let header_bytes = serialize_header(&block.header);
+        let hash = sha256d(&header_bytes);
+        let hash_num = BigUint::from_bytes_be(&hash);
+        let target = bits_to_target(block.header.bits);
+
+        let prev_header_bytes = serialize_header(&prev_block.header);
+        let prev_hash = sha256d(&prev_header_bytes);
+        let prev_hash_hex = hash_to_hex(&prev_hash);
+
+        hash_num < target && block.header.prev_block_hash == prev_hash_hex
+    }
+
+    pub fn validate_chain(&self) -> bool {
+        for i in 1..self.chain.len() {
+            let current = &self.chain[i];
+            let previous = &self.chain[i - 1];
+
+            if !self.is_valid_block(current, previous) {
+                println!("Invalid block at index {}", i);
+                return false;
+            }
+        }
+
+        println!("Blockchain is valid.");
+        true
     }
 }

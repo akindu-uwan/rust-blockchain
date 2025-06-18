@@ -6,6 +6,7 @@ mod difficulty;
 mod block;
 mod mining;
 mod blockchain;
+mod network;
 
 //use crate::models::*;
 //use crate::utxo::*;
@@ -16,7 +17,8 @@ mod blockchain;
 //use mining::mine_block;
 //use difficulty::bits_to_target;
 use blockchain::Blockchain;
-use models::Transaction;
+//use models::Transaction;
+use network::start_server;
 
 fn main() {
 
@@ -194,6 +196,7 @@ fn main() {
     loaded_bc.validate_chain();
     */
 
+    /* 
     //2.5 Test
     let mut bc = Blockchain::new();
 
@@ -213,5 +216,10 @@ fn main() {
 
     let reloaded = Blockchain::load_binary("chain.blk");
     reloaded.validate_chain();
+    */
+
+    //3.1 Test
+    let bc = Blockchain::new();
+    start_server(bc, "127.0.0.1:9000");
 
 }

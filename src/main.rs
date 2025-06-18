@@ -19,6 +19,7 @@ mod network;
 use blockchain::Blockchain;
 //use models::Transaction;
 use network::start_server;
+use network::request_latest_block;
 
 fn main() {
 
@@ -219,7 +220,15 @@ fn main() {
     */
 
     //3.1 Test
+    //Server Test
     let bc = Blockchain::new();
     start_server(bc, "127.0.0.1:9000");
+
+    //client Test
+    let bc = Blockchain::new();
+
+    if let Some(block) = request_latest_block("127.0.0.1:9000") {
+        println!("✅ Got block from peer: {:?}", block.header);
+    }
 
 }

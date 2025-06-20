@@ -219,6 +219,7 @@ fn main() {
     reloaded.validate_chain();
     */
 
+    /* 
     //3.1 Test
     //Server Test
     let bc = Blockchain::new();
@@ -230,5 +231,6 @@ fn main() {
     if let Some(block) = request_latest_block("127.0.0.1:9000") {
         println!("✅ Got block from peer: {:?}", block.header);
     }
+    */
 
 }

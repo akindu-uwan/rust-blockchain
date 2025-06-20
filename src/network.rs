@@ -62,4 +62,23 @@ pub fn request_latest_block(peer: &str) -> Option<Block> {
             None
         }
     }
+
+    use crate::block::Block;
+
+    pub type PeerList = Vec<String>;
+
+    pub fn broadcast_block(peers: &PeerList, block: &Block) {
+    let json = serde_json::to_string(block).unwrap();
+
+    for peer in peers {
+        if let Ok(mut stream) = TcpStream::connect(peer) {
+            let _ = stream.write_all(b"send_block\n");
+            let _ = stream.write_all(json.as_bytes());
+            println!("Send block to {}", peer);
+        } else {
+            println!("Could not connect to {}", peer);
+        }
+    }
+}
+
 }

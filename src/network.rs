@@ -1,5 +1,5 @@
-use std::net::{TcpListener, TcpStream};
 use std::io::{Read, Write};
+use std::net::{TcpListener, TcpStream};
 use std::thread;
 
 use crate::blockchain::Blockchain;
@@ -39,8 +39,6 @@ fn handle_connection(mut stream: TcpStream, bc: Blockchain) {
     }
 }
 
-use crate::block::Block;
-
 pub fn request_latest_block(peer: &str) -> Option<Block> {
     match TcpStream::connect(peer) {
         Ok(mut stream) => {
@@ -62,12 +60,13 @@ pub fn request_latest_block(peer: &str) -> Option<Block> {
             None
         }
     }
+}
 
-    use crate::block::Block;
+use crate::block::Block;
 
-    pub type PeerList = Vec<String>;
+pub type PeerList = Vec<String>;
 
-    pub fn broadcast_block(peers: &PeerList, block: &Block) {
+pub fn broadcast_block(peers: &PeerList, block: &Block) {
     let json = serde_json::to_string(block).unwrap();
 
     for peer in peers {
@@ -79,6 +78,4 @@ pub fn request_latest_block(peer: &str) -> Option<Block> {
             println!("Could not connect to {}", peer);
         }
     }
-}
-
 }

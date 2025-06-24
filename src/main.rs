@@ -1,12 +1,12 @@
-mod models;
-mod utxo;
-mod script;
+mod block;
+mod blockchain;
 mod crypto;
 mod difficulty;
-mod block;
 mod mining;
-mod blockchain;
+mod models;
 mod network;
+mod script;
+mod utxo;
 
 //use crate::models::*;
 //use crate::utxo::*;
@@ -18,12 +18,11 @@ mod network;
 //use difficulty::bits_to_target;
 use blockchain::Blockchain;
 //use models::Transaction;
-use network::start_server;
 use network::request_latest_block;
+use network::start_server;
 
 fn main() {
-
-    /* 
+    /*
     let out = TxOut {
         value: 50000,
         pubkey_hash: "recipient hash".to_string(),
@@ -52,7 +51,7 @@ fn main() {
     println!("{:#?}", block);
     */
 
-    /* 
+    /*
     // Dummy transactions
     let txid1 = "tx1".to_string();
     let tx1 = Transaction {
@@ -84,7 +83,7 @@ fn main() {
     println!("💰 Alice balance: {}", utxo.get_balance("alice")); // should be 0
     println!("💰 Bob balance:   {}", utxo.get_balance("bob"));   // should be 30000
     */
-    /* 
+    /*
     let pubkey = "my-public-key";
     let sig = "signed-by-me";
     let pubkey_hash = ripemd160_sha256(pubkey);
@@ -108,7 +107,7 @@ fn main() {
     println!("✅ Script result: {}", valid);  // should be true
     */
 
-    /* 
+    /*
     //1.5 Test
     //simulate mining with dummy data
     let header = b"fake block header";
@@ -118,7 +117,7 @@ fn main() {
     println!("Block valid under pow? {}", is_valid);
     */
 
-    /* 
+    /*
     //2.1 Test
     let prev_hash = "0000000000000000".to_string();
     let merkle_root = "4e3f5...".to_string();
@@ -128,7 +127,7 @@ fn main() {
     println!("{:#?}", mined_header);
     */
 
-    /* 
+    /*
     //2.2 Test
     let mut bc = Blockchain::new();
 
@@ -154,7 +153,7 @@ fn main() {
     }
     */
 
-    /* 
+    /*
     //2.3 Test
     let mut bc = Blockchain::new();
 
@@ -175,7 +174,7 @@ fn main() {
     bc.validate_chain();
     */
 
-    /* 
+    /*
     //2.4 Test
     let mut bc = Blockchain::new();
 
@@ -197,7 +196,7 @@ fn main() {
     loaded_bc.validate_chain();
     */
 
-    /* 
+    /*
     //2.5 Test
     let mut bc = Blockchain::new();
 
@@ -219,7 +218,7 @@ fn main() {
     reloaded.validate_chain();
     */
 
-    /* 
+    /*
     //3.1 Test
     //Server Test
     let bc = Blockchain::new();
@@ -233,4 +232,19 @@ fn main() {
     }
     */
 
+    /*
+        //3.2 Test
+        //server test
+        let mut bc = Blockchain::new();
+        let peers = vec!["127.0.0.1:9001".to_string()];
+
+        bc.add_block(vec![]);
+        let new_block = bc.chain.last().unwrap().clone();
+        network::broadcast_block(&peers, &new_block);
+        start_server(bc, "127.0.0.1:9000");
+
+        //client test
+        let bc = Blockchain::new();
+        start_server(bc, "127.0.0.1:9001");
+    */
 }

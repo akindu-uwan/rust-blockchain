@@ -23,17 +23,27 @@ pub fn start_server(bc: Blockchain, address: &str) {
     }
 }
 
-fn handle_connection(mut stream: TcpStream, bc: Blockchain) {
-    let mut buffer = [0; 1024];
+fn handle_connection(mut stream: TcpStream, mut bc: Blockchain) {
+    let mut buffer = [0; 4096];
     let bytes = stream.read(&mut buffer).unwrap();
-    let request = String::from_utf8_lossy(&buffer[..bytes]);
+    let received = String::from_utf8_lossy(&buffer[..bytes]);
 
-    println!("Received: {}", request);
+    if received.contains("get_latest_block") {
+        if let Some(latest) = bc.chain.last() {
+            let json = serde_json::to_string(&latest).unwrap();
+            stream.write_all(json.as_bytes()).unwrap();
+        }
+    } else if received.contains("send_block") {
+        let lines: Vec<&str> = received.splitn(2, '\n').collect();
+        if lines.len() == 2 {
+            let json_block = lines[1];
+            if let Ok(block) = serde_json::from_str::<Block>(json_block) {
+                println!("Received block broadcast: {:?}", block.header);
 
-    if request.contains("get_latest_block") {
-        let latest = bc.chain.last().unwrap();
-        let json = serde_json::to_string(&latest).unwrap();
-        stream.write_all(json.as_bytes()).unwrap();
+                bc.chain.push(block);
+                println!("Added to chain.");
+            }
+        }
     } else {
         stream.write_all(b"Unknown command").unwrap();
     }
